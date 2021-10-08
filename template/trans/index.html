@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class= "container mt-5 mb-5">
+
+    <h1>번역해ZOOM</h1>
+    <hr>
+<form method="POST">
+    {% csrf_token %}
+    <div class="row mt-5">
+        <div class='col-lg-5'>
+            <h4>BEFORE</h4>
+            <textarea name="before" class="form-control mt-3" style="font-size:30px; height:300px;"  placeholder="번역할 내용을 입력해주세요">{{before}}</textarea>
+        </div>
+        <div class='col-lg-2 text-center' style="margin:auto">
+            <h4>FROM</h4>
+            <select class="form-select"  name="from" multiple aria-label="multiple select example">
+                <option value="dt" if {% if from == 'dt' or not from%}selected{% endif %}>Detected</option>
+                <option value="ko" if {% if from == 'ko' %}selected{% endif %}>Korean</option>
+                <option value="en" if {% if from == 'en'  %}selected{% endif %}>English</option>
+                <option value="ja" if {% if from == 'ja' %}selected{% endif %}>Japaneese</option>
+                <option value="zh-cn" if {% if from == 'zh-cn' %}selected{% endif %}>Chiness</option>
+            </select>
+
+            <button class="btn btn-secondary mt-3 mb-3">TRANS</button>
+
+            <h4>TO</h4>
+            <select class="form-select" name="to" multiple aria-label="multiple select example">
+                <option value="ko" if {% if to == 'ko' or not to %}selected{% endif %}>Korean</option>
+                <option value="en" if {% if to == 'en' %}selected{% endif %}>English</option>
+                <option value="ja" if {% if to == 'ja' %}selected{% endif %}>Japaneese</option>
+                <option value="zh-cn" if {% if to == 'zh-cn' %}selected{% endif %}>Chiness</option>
+            </select>
+        </div>
+        <div class='col-lg-5'>
+            <h4>AFTER</h4>
+            <textare disabled class="form-control mt-3" style="font-size:30px; height:300px;">{{after}}
+            </textare>
+
+        </div>
+
+    </div>
+</form>
+
+
+
+
+</div>
+{% endblock %}

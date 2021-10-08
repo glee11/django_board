@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class= "container mt-5 mb-5">
+
+    <h1>OCR</h1>
+    <hr>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <form class="row mt-5">
+        <div class="mb-3">
+            <label class="form-label">Picture</label>
+            <input type="file" name="tesbefore" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        
+        <div class='col-lg-3 text-center' style="margin:auto">
+            
+            <h4>언어</h4>
+            <select class="form-select"  name="from" multiple aria-label="multiple select example">
+                <option value="vie" if {% if from == 'vie' %}selected{% endif %}>Vietnamness</option>
+                <option value="ko" if {% if from == 'kor' %}selected{% endif %}>Korean</option>
+                <option value="eng" if {% if from == 'eng'  %}selected{% endif %}>English</option>
+                <option value="jpn" if {% if from == 'jpn' %}selected{% endif %}>Japaneese</option>
+                <option value="chi_sim" if {% if from == 'chi_sim' %}selected{% endif %}>Chiness</option>
+            </select>
+        
+            <button class="btn btn-secondary col-lg-4 mt-3 mb-3">뽑아줘</button>
+            
+        </div>
+        
+
+    </form>
+
+ 
+<form method="POST" action="{% url 'trans:index' %}">
+<div class='col-lg-8 text-center' style="margin:auto">
+    {% csrf_token %} 
+    <textarea name="before" class="form-control mt-3" style="font-size:35px; height:300px;">{{after}}</textarea>
+{% if after %}
+    <button class="mt-4 btn btn-secondary">Trans to KOREAN</button>
+{% endif %}
+</div>
+</form>
+{% endblock %}
+

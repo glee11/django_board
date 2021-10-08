@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container mt-3">
+    <div class="row">
+        {% for i in con%}
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body mt-3 mb-3"> 
+                    <h5 class="card-title">{{forloop.counter}} 번 문제</h5>
+                    
+                    <p class="card-text">{{i.question}}</p>
+                </div>
+                <button type="button" class="{% if user in i.solver.all%}btn btn-primary{%else%}btn-secondary{%endif%}" data-bs-toggle="modal" data-bs-target="#exampleModal{{forloop.counter}}">
+                    문제풀기
+                </button>
+                <div class="modal fade" id="exampleModal{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{for.loopcount}}문제입니다.</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                            {{i.question}}
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST" action="{%url 'quiz:judge' i.id %}">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control" name="answer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">끄기</button>
+                                    <button class="btn btn-danger">예</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+
+    <h1>Ranking</h1>
+    <hr>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Username</th>
+                <th scope="col">Solve Num</th>
+                <th scope="col">Point</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in u %}
+                <tr>
+                    <th scope="row"> {{forloop.counter}} </th>
+                    <td>{{i.username}}</td>
+                    <td>
+                        {% for j in i.quiz_set.all%}                 
+                        <mark>{{ j.question }}</mark>
+                        {% endfor %}
+                    </td>
+                    <td>{{i.point}}</td>
+                </tr>
+            {%endfor%}
+            </tbody>
+        </table>
+
+
+
+</div>
+
+
+{% endblock %}
